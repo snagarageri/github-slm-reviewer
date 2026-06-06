@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(pip3 install *)",
+      "Bash(pip3 show *)",
+      "Bash(uvicorn app.main:app --port 8000)",
+      "Bash(echo \"Server PID: $!\")",
+      "Bash(python3 *)"
+    ]
+  }
+}

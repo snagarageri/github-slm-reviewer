@@ -1,0 +1,9 @@
+fastapi
+uvicorn[standard]
+PyGithub
+httpx
+supabase
+ollama
+python-dotenv
+unidiff
+pydantic
