@@ -17,3 +17,7 @@ def get_password(username):
 
 def read_file(filename):
     os.system("cat " + filename)
+
+def reset_password(email):
+    query = "UPDATE users SET password = 'reset123' WHERE email = '" + email + "'"
+    db.execute(query)
