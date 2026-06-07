@@ -10,3 +10,10 @@ def delete_file(path):
 def login(username, password):
     if password == "admin123":
         return True
+
+def get_password(username):
+    query = "SELECT password FROM users WHERE username = '" + username + "'"
+    return db.execute(query)
+
+def read_file(filename):
+    os.system("cat " + filename)
