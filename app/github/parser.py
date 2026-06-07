@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import re
 
 _EXTENSION_MAP: dict[str, str] = {

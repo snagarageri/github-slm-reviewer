@@ -5,7 +5,19 @@
       "Bash(pip3 show *)",
       "Bash(uvicorn app.main:app --port 8000)",
       "Bash(echo \"Server PID: $!\")",
-      "Bash(python3 *)"
+      "Bash(python3 *)",
+      "Bash(curl -s http://localhost:11434/api/tags)",
+      "Bash(curl -s -X POST http://localhost:11434/api/chat -H 'Content-Type: application/json' -d '{\"model\":\"qwen2.5-coder:3b\",\"messages\":[{\"role\":\"user\",\"content\":\"say hello\"}],\"stream\":false}')",
+      "Read(//opt/homebrew/Cellar/ollama/0.30.6/**)",
+      "Read(//opt/homebrew/Cellar/ollama/0.30.6/libexec/**)",
+      "Bash(ollama --version)",
+      "Bash(xargs cat)",
+      "Bash(ollama pull *)",
+      "Bash(curl -s -X POST http://localhost:11434/api/chat -H 'Content-Type: application/json' -d '{\"model\":\"qwen2.5-coder:3b\",\"messages\":[{\"role\":\"user\",\"content\":\"say hello in one word\"}],\"stream\":false}')",
+      "Bash(brew info *)",
+      "Read(//opt/homebrew/bin/**)",
+      "Bash(/opt/homebrew/bin/python3 --version)",
+      "Read(//usr/local/bin/**)"
     ]
   }
 }
