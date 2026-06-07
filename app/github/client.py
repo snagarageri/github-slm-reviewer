@@ -67,11 +67,12 @@ class GitHubClient:
         path: str,
         line: int,
         body: str,
-    ) -> None:
+    ) -> str | None:
         repo_obj = self._repo(owner, repo)
         pr = repo_obj.get_pull(pr_number)
         commit = repo_obj.get_commit(commit_sha)
-        pr.create_review_comment(body=body, commit=commit, path=path, line=line)
+        comment = pr.create_review_comment(body=body, commit=commit, path=path, line=line)
+        return str(comment.id)
 
     def post_pr_comment(self, owner: str, repo: str, pr_number: int, body: str) -> None:
         pr = self._repo(owner, repo).get_pull(pr_number)

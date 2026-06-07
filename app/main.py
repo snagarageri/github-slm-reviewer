@@ -7,7 +7,9 @@ import os
 
 import httpx
 from dotenv import load_dotenv
-from fastapi import FastAPI, Header, HTTPException, Request, status
+from fastapi import BackgroundTasks, FastAPI, Header, HTTPException, Request, status
+
+from app.core.reviewer import CodeReviewer
 
 load_dotenv()
 
@@ -15,6 +17,7 @@ logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(mess
 logger = logging.getLogger(__name__)
 
 app = FastAPI(title="GitHub SLM Reviewer", version="0.1.0")
+reviewer = CodeReviewer()
 
 WEBHOOK_SECRET = os.getenv("GITHUB_WEBHOOK_SECRET", "")
 OLLAMA_BASE_URL = os.getenv("OLLAMA_BASE_URL", "http://localhost:11434")
@@ -33,6 +36,7 @@ def _verify_signature(payload: bytes, sig_header: str | None) -> None:
 @app.post("/webhook", status_code=status.HTTP_200_OK)
 async def webhook(
     request: Request,
+    background_tasks: BackgroundTasks,
     x_hub_signature_256: str | None = Header(default=None),
     x_github_event: str | None = Header(default=None),
 ):
@@ -58,6 +62,11 @@ async def webhook(
     commit_sha = pr.get("head", {}).get("sha")
 
     logger.info("PR #%s | repo=%s | sha=%s | action=%s", pr_number, repo_name, commit_sha, action)
+
+    owner, repo_short = (repo_name.split("/", 1) + [""])[:2]
+    background_tasks.add_task(
+        reviewer.review_pr, owner, repo_short, pr_number, commit_sha
+    )
 
     return {"status": "ok", "pr": pr_number, "repo": repo_name, "sha": commit_sha}
 
